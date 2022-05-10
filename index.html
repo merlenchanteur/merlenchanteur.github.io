@@ -7,50 +7,35 @@
 <style>
   body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    /* text-align: center; */
-	  background-color: rgb(248, 205, 125);
-    height: 100%;  
+	  background-color: #aaa;
+    height: 100%;
   }
   p {
-    font-size: 1.5em;
-    margin-right: 3em;
+    font-size: 1em;
+    /* margin-right: 1em; */
     margin-top: 0.5em;
     margin-bottom: 0.5em;
   }
   h2 {
     font-size: 2em ;
+    margin-right: 0.5em;
   }
   .container {
     position: absolute;
     display: inline-block;
     margin: 0 auto;
     border: 1px black solid;
+    width: 40%;
   }
   .sliders  {
     display: inline-block;
   }
-  @media only screen and (min-width: 320px) and (max-width: 576px) {
-    #wheel {
-      height: 15em;
-    }
-  }
-  @media only screen and (min-width: 577px) and (max-width: 999px) {
-    #wheel {
-      height: 30em;
-    }
-  }
-
-  @media only screen and (min-width: 1000px) {
-    #wheel {
-      height: 40em;
-    }
-  }
-
   #wheel {
     position: relative;
     top: 0;
     left: 0;
     box-shadow: 0 0 1em darkblue;
+    width:100%;
   }
 
   #aim {
@@ -61,21 +46,36 @@
   }
   input[type=range] {
     width: 40%;
+    
   }
 
 </style>
+<script type="text/javascript" src="./scripts/vars.js"></script>
+<script type="text/javascript" src="./scripts/move_cursor.js"></script>
+<script type="text/javascript" src="./scripts/hormonal_change.js"></script>
+<script type="text/javascript" src="./scripts/axis_change.js"></script>
 </head>
 <body>
 
-<h1>Emotional State from Pseudo-Hormones</h1>
+<h1>Emotional State</h1>
     <div class="sliders">
-    <p>EVEIL : <span id="p_eveil">3</span></p> 
-    <input type="range" min="1" max="5" value="3" class="slider" id="s_eveil">
-    <p>SATISFACTION : <span id="p_satisfaction">3</span></p>
-    <input type="range" min="1" max="5" value="3" class="slider" id="s_satisfaction">
-    <p>PROPENSION SOCIALE : <span id="p_propension">3</span></p>
-    <input type="range" min="1" max="5" value="3" class="slider" id="s_propension">
-    <h2>Current Emotion:<br/><i><span id="p_current">neutral</span></i></h2>
+      <p>ÉVEIL : <span id="p_eveil">3</span></p> 
+      <input type="range" min="1" max="5" value="3" class="hormone" id="s_eveil">
+      <p>SATISFACTION : <span id="p_satisfaction">3</span></p>
+      <input type="range" min="1" max="5" value="3" class="hormone" id="s_satisfaction">
+      <p>PROP. SOCIALE : <span id="p_propension">3</span></p>
+      <input type="range" min="1" max="5" value="3" class="hormone" id="s_propension">
+      <hr/>
+      <p>Axe 1 : <span id="p_axe1">neutral</span></p> 
+      <input type="range" min="-3" max="3" value="0" class="axis" id="s_axe1">
+      <p>Axe 2 : <span id="p_axe2">neutral</span></p> 
+      <input type="range" min="-3" max="3" value="0" class="axis" id="s_axe2">
+      <p>Axe 3 : <span id="p_axe3">neutral</span></p> 
+      <input type="range" min="-3" max="3" value="0" class="axis" id="s_axe3">
+      <p>Axe 4 : <span id="p_axe4">neutral</span></p> 
+      <input type="range" min="-3" max="3" value="0" class="axis" id="s_axe4">
+      <hr/>
+      <h2>Current Emotion:<br/><i><span id="p_current">neutral</span></i></h2>
     </div>
 
     <div class="container">
@@ -88,90 +88,41 @@
 
 
 <script>
-  var current = '';
+  // var current = '';
+  // var cocktail = 333; // neutral
+  // var hormones = document.querySelectorAll('.hormone');
+  // var axes = document.querySelectorAll('.axis');
 
-  var eveil = document.getElementById("s_eveil");
-  var satisfaction = document.getElementById("s_satisfaction");
-  var propension = document.getElementById("s_propension");
+  // var eveil = document.getElementById("s_eveil");
+  // var propension = document.getElementById("s_propension");
+  // var satisfaction = document.getElementById("s_satisfaction");
 
-  var o_eveil = document.getElementById("p_eveil");
-  var o_satisfaction = document.getElementById("p_satisfaction");
-  var o_propension = document.getElementById("p_propension");
+  // var axe1 = document.getElementById("s_axe1");
+  // var axe2 = document.getElementById("s_axe2");
+  // var axe3 = document.getElementById("s_axe3");
+  // var axe4 = document.getElementById("s_axe4");
 
-  var cocktail = 333
+  // // OUTPUT ELEMENTS
+  // var o_eveil = document.getElementById("p_eveil");
+  // var o_satisfaction = document.getElementById("p_satisfaction");
+  // var o_propension = document.getElementById("p_propension");
+  // var o_axe1 = document.getElementById("p_axe1");
+  // var o_axe2 = document.getElementById("p_axe2");
+  // var o_axe3 = document.getElementById("p_axe3");
+  // var o_axe4 = document.getElementById("p_axe4");
 
-  var emotions_list = {
-    555 : "ecstasy",
-    554 : "amazement",
-    545 : "admiration",
-    544 : "optimism",
-    542 : "contempt",
-    534 : "awe",
-    533 : "surprise",
-    532 : "aggressiveness",
-    525 : "submission",
-    522 : "disaproval",
-    521 : "rage",
-    511 : "terror",
-    455 : "love",
-    454 : "joy",
-    433 : "anticipation",
-    432 : "vigilance",
-    423 : "anger",
-    422 : "fear",
-    412 : "disgust",
-    411 : "loathing",
-    344 : "distraction",
-    334 : "interest",
-    333 : "neutral",
-    332 : "apprehension",
-    322 : "annoyance",
-    321 : "remorse",
-    311 : "grief",
-    245 : "trust",
-    244 : "serenity",
-    234 : "acceptance",
-    232 : "pensiveness",
-    223 : "sadness",
-    133 : "boredom"
-  }
+  // var old_1 = axe1.value;
+  // var old_2 = axe2.value;
+  // var old_3 = axe3.value;
+  // var old_4 = axe4.value;
 
-  eveil.oninput = function() {
-      // PRINT THE VALUE IN THE DIV OUTPUT
-      Stringcocktail = String(cocktail).split("");
-      Stringcocktail[0] = this.value;
-      Stringcocktail = Stringcocktail.join("");
-      cocktail = parseInt(Stringcocktail);
-      o_eveil.innerHTML = String(cocktail)[0];
-      check();
-  }
-  satisfaction.oninput = function() {
-      // PRINT THE VALUE IN THE DIV OUTPUT
-      Stringcocktail = String(cocktail).split("");
-      Stringcocktail[1] = this.value;
-      Stringcocktail = Stringcocktail.join("");
-      cocktail = parseInt(Stringcocktail);
-      o_satisfaction.innerHTML = String(cocktail)[1];
-      check();
-  }
-  propension.oninput = function() {
-      // PRINT THE VALUE IN THE DIV OUTPUT
-      Stringcocktail = String(cocktail).split("");
-      Stringcocktail[2] = this.value;
-      Stringcocktail = Stringcocktail.join("");
-      cocktail = parseInt(Stringcocktail);
-      o_propension.innerHTML = String(cocktail)[2];
-      check();
-  }
-
-
-  function check(){
-    console.log(cocktail);
-    if (cocktail in emotions_list){
-      current = emotions_list[cocktail];
+  function cocktail_to_emotion(){
+    // Assign the closest emotion to the current cocktail of hormones
+    if (cocktail in d_cocktail_emotion){
+      current = d_cocktail_emotion[cocktail];
     } else {
       var d = {}
-      for (const [id, emotion] of Object.entries(emotions_list)){
+      for (const [id, emotion] of Object.entries(d_cocktail_emotion)){
         var x = String(cocktail);
         var y = String(id);
         var dist = calc_distance(parseInt(x[0]), parseInt(x[1]), parseInt(x[2]),
@@ -185,201 +136,37 @@
           var closest = emo;
         }
       };
-      console.log("Closest emotion is", closest);
-      // console.log("TABLE", d);
       current = closest;
     };
-
-
-    move_cursor();
-
   };
 
+  function emotion_to_cocktail(){
+    // adapt the current cocktail of hormones to the given emotion
+    cocktail = d_emotion_cocktail[current];
+    eveil.value = String(cocktail)[0];
+    satisfaction.value = String(cocktail)[1];
+    propension.value = String(cocktail)[2];
+  };
+
+
   function calc_distance(x1 , y1 , z1 , x2 , y2 , z2) {
- 
     var d = Math.pow((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2) * 1.0), 0.5);
     return d.toFixed(10);
   }
 
-  function move_cursor(){
-
-    switch (current) {
-      
-      // VERTICAL AXIS
-      case 'ecstasy':
-        aim.style.top = "7%";
-        aim.style.left = "47%";
-        break;
-      
-      case 'joy':
-        aim.style.top = "15%";
-        aim.style.left = "47%";
-        break;
-        
-      case 'serenity':
-        aim.style.top = "25%";
-        aim.style.left = "47%";
-        break;
-
-      case 'pensiveness':
-        aim.style.top = "70%";
-        aim.style.left = "47%";
-        break;
-      
-      case 'sadness':
-        aim.style.top = "80%";
-        aim.style.left = "47%";
-        break;
-        
-      case 'grief':
-        aim.style.top = "90%";
-        aim.style.left = "47%";
-        break;
-
-      // HORIZONTAL AXIS
-      case 'rage':
-        aim.style.top = "42%";
-        aim.style.left = "5%";
-        break;
-      
-      case 'anger':
-        aim.style.top = "42%";
-        aim.style.left = "15%";
-        break;
-
-      case 'annoyance':
-        aim.style.top = "42%";
-        aim.style.left = "25%";
-        break;
-      
-      case 'apprehension':
-        aim.style.top = "42%";
-        aim.style.left = "70%";
-        break;
-        
-      case 'fear':
-        aim.style.top = "42%";
-        aim.style.left = "80%";
-        break;
-
-      case 'terror':
-        aim.style.top = "42%";
-        aim.style.left = "88%";
-        break;
-
-
-      // TOP-LEFT -- BOTTOM-RIGHT AXIS
-      case 'vigilance':
-        aim.style.top = "17%";
-        aim.style.left = "18%";
-        break;
-      
-      case 'anticipation':
-        aim.style.top = "23%";
-        aim.style.left = "23%";
-        break;
-
-      case 'interest':
-        aim.style.top = "33%";
-        aim.style.left = "30%";
-        break;
-      
-      case 'distraction':
-        aim.style.top = "63%";
-        aim.style.left = "63%";
-        break;
-        
-      case 'surprise':
-        aim.style.top = "70%";
-        aim.style.left = "68%";
-        break;
-
-      case 'amazement':
-        aim.style.top = "75%";
-        aim.style.left = "75%";
-        break;
-     
-      // BOTTOM-LEFT -- TOP-RIGHT AXIS
-      case 'loathing':
-        aim.style.top = "75%";
-        aim.style.left = "18%";
-        break;
-      
-      case 'disgust':
-        aim.style.top = "70%";
-        aim.style.left = "23%";
-        break;
-
-      case 'boredom':
-        aim.style.top = "63%";
-        aim.style.left = "30%";
-        break;
-      
-      case 'acceptance':
-        aim.style.top = "33%";
-        aim.style.left = "63%";
-        break;
-        
-      case 'trust':
-        aim.style.top = "23%";
-        aim.style.left = "68%";
-        break;
-
-      case 'admiration':
-        aim.style.top = "17%";
-        aim.style.left = "75%";
-        break;
-
-
-      // COMPOUND EMOTIONS
-      case 'optimism':
-        aim.style.top = "9%";
-        aim.style.left = "31%";
-        break;
-      
-      case 'love':
-        aim.style.top = "9%";
-        aim.style.left = "65%";
-        break;
-
-      case 'submission':
-        aim.style.top = "33%";
-        aim.style.left = "88%";
-        break;
-      
-      case 'awe':
-        aim.style.top = "63%";
-        aim.style.left = "88%";
-        break;
-        
-      case 'disapproval':
-        aim.style.top = "85%";
-        aim.style.left = "65%";
-        break;
-
-      case 'remorse':
-        aim.style.top = "85%";
-        aim.style.left = "31%";
-        break;
-
-      case 'contempt':
-        aim.style.top = "63%";
-        aim.style.left = "5%";
-        break;
-        
-      case 'aggressiveness':
-        aim.style.top = "33%";
-        aim.style.left = "5%";
-        break;
-        
-        
-      // NEUTRAL
-      case 'neutral':
-        aim.style.top = "40%";
-        aim.style.left = "47%";
-        break;      
+  // Absolute substraction
+  function abs_sub(number, change) {
+    number = parseInt(number);
+    var ret = number;
+    if (number > 0) {
+      ret = number - change;
+    } else if (number < 0) {
+      ret = number + change;
     };
-    document.getElementById("p_current").innerHTML = current;
+    if (Math.sign(number) != Math.sign(ret)) {
+      ret = 0;
+    };
+    return ret;
   };
 
 </script>
