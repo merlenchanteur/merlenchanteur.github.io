@@ -140,6 +140,8 @@ switch (Math.abs(value_axe)) {
         current = found_val_2
     } else if (found_val_1) {
         current = found_val_1
+    } else {
+        current = "neutral";
     };
     break;
 
