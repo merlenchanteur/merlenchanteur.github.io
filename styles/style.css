@@ -28,6 +28,7 @@ input[type=range] {
     display: inline-block;
     margin: 0 auto;
     margin-right: 3%;
+    max-width: 50%;
 }
 
 .sliders  {
