@@ -27,7 +27,7 @@ input[type=range] {
     position: absolute;
     display: inline-block;
     margin: 0 auto;
-    border: 1px black solid;
+    margin-right: 3%;
 }
 
 .sliders  {
@@ -39,7 +39,7 @@ input[type=range] {
     position: relative;
     top: 0;
     left: 0;
-    box-shadow: 0 0 1em darkblue;
+    box-shadow: 0 0 1em black;
     width:100%;
 }
 

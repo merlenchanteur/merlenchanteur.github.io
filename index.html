@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wheel</title>
-<link rel="icon" type="image/x-icon" href="wheel.png">
-<link href="./styles/style.css" rel="stylesheet">
-<script type="text/javascript" src="./scripts/vars.js" defer></script>
-<script type="text/javascript" src="./scripts/move_cursor.js" defer></script>
-<script type="text/javascript" src="./scripts/hormonal_change.js" defer></script>
-<script type="text/javascript" src="./scripts/axis_change.js" defer></script>
-</head>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wheel</title>
+  <link rel="icon" type="image/x-icon" href="wheel.png">
+  <link href="./styles/style.css" rel="stylesheet">
+  <script type="text/javascript" src="./scripts/vars.js" defer></script>
+  <script type="text/javascript" src="./scripts/move_cursor.js" defer></script>
+  <script type="text/javascript" src="./scripts/hormonal_change.js" defer></script>
+  <script type="text/javascript" src="./scripts/axis_change.js" defer></script>
+  </head>
 <body>
 
 <h1>Emotional State</h1>
@@ -37,66 +37,63 @@
         <img src="wheel.png" id="wheel"/>
         <img src="aim.png" id="aim"/>
     </div>
-    
 
 
-
-
-<script defer>
-  function cocktail_to_emotion(){
-    // Assign the closest emotion to the current cocktail of hormones
-    if (cocktail in d_cocktail_emotion){
-      current = d_cocktail_emotion[cocktail];
-    } else {
-      var d = {}
-      for (const [id, emotion] of Object.entries(d_cocktail_emotion)){
-        var x = String(cocktail);
-        var y = String(id);
-        var dist = calc_distance(parseInt(x[0]), parseInt(x[1]), parseInt(x[2]),
-        parseInt(y[0]), parseInt(y[1]), parseInt(y[2]));
-        d[emotion] = dist;
-      }
-      var distance_min = 3
-      for (const [emo, distance] of Object.entries(d)){
-        if (distance<distance_min) {
-          distance_min = distance;
-          var closest = emo;
+  <script defer>
+    function cocktail_to_emotion(){
+      // Assign the closest emotion to the current cocktail of hormones
+      if (cocktail in d_cocktail_emotion){
+        current = d_cocktail_emotion[cocktail];
+      } else {
+        var d = {}
+        for (const [id, emotion] of Object.entries(d_cocktail_emotion)){
+          var x = String(cocktail);
+          var y = String(id);
+          var dist = calc_distance(parseInt(x[0]), parseInt(x[1]), parseInt(x[2]),
+          parseInt(y[0]), parseInt(y[1]), parseInt(y[2]));
+          d[emotion] = dist;
         }
+        var distance_min = 3
+        for (const [emo, distance] of Object.entries(d)){
+          if (distance<distance_min) {
+            distance_min = distance;
+            var closest = emo;
+          }
+        };
+        current = closest;
       };
-      current = closest;
     };
-  };
 
-  function emotion_to_cocktail(){
-    // adapt the current cocktail of hormones to the given emotion
-    cocktail = d_emotion_cocktail[current];
-    eveil.value = String(cocktail)[0];
-    satisfaction.value = String(cocktail)[1];
-    propension.value = String(cocktail)[2];
-  };
-
-
-  function calc_distance(x1 , y1 , z1 , x2 , y2 , z2) {
-    var d = Math.pow((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2) * 1.0), 0.5);
-    return d.toFixed(10);
-  }
-
-  // Absolute substraction
-  function abs_sub(number, change) {
-    number = parseInt(number);
-    var ret = number;
-    if (number > 0) {
-      ret = number - change;
-    } else if (number < 0) {
-      ret = number + change;
+    function emotion_to_cocktail(){
+      // adapt the current cocktail of hormones to the given emotion
+      cocktail = d_emotion_cocktail[current];
+      eveil.value = String(cocktail)[0];
+      satisfaction.value = String(cocktail)[1];
+      propension.value = String(cocktail)[2];
     };
-    if (Math.sign(number) != Math.sign(ret)) {
-      ret = 0;
-    };
-    return ret;
-  };
 
-</script>
+
+    function calc_distance(x1 , y1 , z1 , x2 , y2 , z2) {
+      var d = Math.pow((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2) * 1.0), 0.5);
+      return d.toFixed(10);
+    }
+
+    // Absolute substraction
+    function abs_sub(number, change) {
+      number = parseInt(number);
+      var ret = number;
+      if (number > 0) {
+        ret = number - change;
+      } else if (number < 0) {
+        ret = number + change;
+      };
+      if (Math.sign(number) != Math.sign(ret)) {
+        ret = 0;
+      };
+      return ret;
+    };
+
+  </script>
 
 </body>
 </html>
