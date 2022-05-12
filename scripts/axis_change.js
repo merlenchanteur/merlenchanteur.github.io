@@ -1,14 +1,13 @@
 // AXIS CHANGE
 axes.forEach(axe => axe.addEventListener('change', event => {
 value_axe = parseInt(axe.value);
+emotion_of_current_axe = emo_axes[axe.id][axe.value];
 // anytime an emotion axis updates
-var bang_size = 0;  // init
 switch(axe.id) {
 
 
     case 's_axe1':
     bang = value_axe - parseInt(old_2);
-    bang_size = Math.abs(bang);
 
     if ( // Intensity increased
         (Math.sign(parseInt(old_1)) == Math.sign(bang))
@@ -29,7 +28,6 @@ switch(axe.id) {
 
     case 's_axe2':
     bang = value_axe - parseInt(old_2);
-    bang_size = Math.abs(bang);
 
     if ( // Intensity increased
         (Math.sign(parseInt(old_2)) == Math.sign(bang))
@@ -50,7 +48,6 @@ switch(axe.id) {
 
     case 's_axe3':
     bang = value_axe - parseInt(old_3);
-    bang_size = Math.abs(bang);
 
     if ( // Intensity increased
         (Math.sign(parseInt(old_3)) == Math.sign(bang))
@@ -71,7 +68,6 @@ switch(axe.id) {
 
     case 's_axe4':
     bang = value_axe - parseInt(old_4);
-    bang_size = Math.abs(bang);
 
     if ( // Intensity increased
         (Math.sign(parseInt(old_4)) == Math.sign(bang))
@@ -92,22 +88,27 @@ switch(axe.id) {
 
 }
 
-// DECIDE WHICH IS CURRENT EMOTION
+// DECIDE WHAT IS THE CURRENT EMOTION
 
 switch (Math.abs(value_axe)) {
 
     // If the latest axis modified is at highest point
     case 3:
-    for (const el of axes) {
-        // if another axis is high
-        if (Math.abs(parseInt(el.value)) == 2){
-        // -> Compound emotion, TBD
-        break;
-        } else {
-        // The highest emotion becomes the current one
-        current = emo_axes[axe.id][axe.value];
-        };
-    }
+        console.log("case3");
+        for (const el of axes) {
+            // if a second axis is high
+            if (Math.abs(parseInt(el.value)) == 2){
+                emotion_of_second_axe = emo_axes[el.id][el.value];
+                // if a compound emotion exists for the combination of the 2 axis
+                if (emotion_of_second_axe in compound_emotions[emotion_of_current_axe]) {
+                    current = compound_emotions[emotion_of_current_axe][emotion_of_second_axe];
+                };
+                break;
+            } else {
+            // The highest emotion becomes the current one
+            current = emo_axes[axe.id][axe.value];
+            };
+        }
     break;
     
     case 2:

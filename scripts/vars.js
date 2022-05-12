@@ -98,47 +98,6 @@ var d_emotion_cocktail = {
     "boredom" : 133
 };
 
-// var emo_axe1 = {
-//     "3": "admiration",
-//     "2": "trust", 
-//     "1": "acceptance",
-//     "0": "neutral", 
-//     "-1": "boredom",
-//     "-2": "disgust", 
-//     "-3": "loathing"
-// };
-
-// var emo_axe2 = {
-//     "3": "terror",
-//     "2": "fear", 
-//     "1": "apprehension",
-//     "0": "neutral", 
-//     "-1": "annoyance",
-//     "-2": "anger", 
-//     "-3": "rage"
-// };
-
-// var emo_axe3 = {
-//     "3": "vigilance",
-//     "2": "anticipation", 
-//     "1": "interest",
-//     "0": "neutral", 
-//     "-1": "distraction",
-//     "-2": "surprise", 
-//     "-3": "amazement"
-// };
-
-// var emo_axe4 = {
-//     "3": "ecstasy",
-//     "2": "joy", 
-//     "1": "serenity",
-//     "0": "neutral", 
-//     "-1": "pensiveness",
-//     "-2": "sadness", 
-//     "-3": "grief"
-// };
-
-
 var emo_axes = {
     "s_axe1": {
         "3": "admiration",
@@ -179,5 +138,39 @@ var emo_axes = {
 
 }
 
+var compound_emotions = {
+    "admiration": {
+        "joy": "love",
+        "fear": "submission"
+    },
+    "terror": {
+        "trust": "submission",
+        "surprise": "awe"
+    },
+    "amazement": {
+        "fear": "awe",
+        "sadness": "disapproval"
+    },
+    "grief": {
+        "surprise": "disapproval",
+        "disgust": "remorse"
+    },
+    "loathing": {
+        "sadness": "remorse",
+        "anger": "contempt"
+    },
+    "rage": {
+        "disgust": "contempt",
+        "anticipation": "aggressiveness"
+    },
+    "vigilance": {
+        "anger": "aggressiveness",
+        "joy": "optimism"
+    },
+    "ecstasy": {
+        "anticipation": "optimism",
+        "trust": "love"
+    },
 
+};
 
